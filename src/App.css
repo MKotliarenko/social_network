@@ -1,26 +1,18 @@
 .app-wrapper{
     display: grid;
-    grid-template-areas:
-            "h h "
+    grid-template-areas: /*количество строк и столбцов*/
+            "h h "    /*с помощью заданых псевдонимов*/
             "n c ";
-    grid-template-rows: 60px 1fr;
-    grid-template-columns: 2fr 10fr;
-    grid-gap: 10px;
+    grid-template-rows: 60px 1fr; /*размер строк*/
+    grid-template-columns: 2fr 10fr; /*размер столбцов */
+    grid-gap: 10px; /*отступ между окнами*/
     width:1600px;
     margin: 0 auto;
 }
-.header{
-    grid-area:h;
-    background-color: #c9c9c9;
-}
-.header img {
-    width : 80px
+.app-wrapper-content{
+    grid-area: c;
+    background-color: lightgray;
 }
 
-.nav{
-    grid-area:n;
 
-}
-.content{
-    grid-area:c;
-}
+
