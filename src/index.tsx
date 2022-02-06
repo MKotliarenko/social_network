@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {state} from "./Redux/state";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App  dialogsData={state.dialogsPage.dialogsData}
+          massagesData={state.dialogsPage.massagesData}
+          postData={state.profilePage.posts}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
