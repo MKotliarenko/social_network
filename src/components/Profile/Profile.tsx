@@ -7,13 +7,14 @@ import {SideBar} from "../SideBar/sideBar";
 
 type ProfilePropsType = {
     postData:Array<PostDataType>
+    addPostToState:(newPost:string)=>void
 }
 
 export function Profile(props:ProfilePropsType) {
     return (
         <div>
             <ProfileInfo />
-            <MyPosts postData={props.postData} />
+            <MyPosts postData={props.postData} addPostToState={props.addPostToState}/>
         </div>
     );
 }

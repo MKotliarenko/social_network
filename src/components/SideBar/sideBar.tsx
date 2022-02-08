@@ -6,7 +6,10 @@ type SideBar ={
 
 export function SideBar(props:SideBar) {
     return (<div>
-            SideBar
+            Friends
+            <div>
+
+            </div>
         </div>
     );
 }

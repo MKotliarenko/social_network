@@ -1,0 +1,23 @@
+.item{
+    color: #426985;
+}
+.item img {
+    width : 50px;
+    border-radius: 30px;
+}
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.dialogsItems {
+    padding: 10px;
+}
+.dialog a.active {
+    color: #55fdfd;
+}
+.dialog a {
+    text-decoration: none;
+    color:black;
+
+}

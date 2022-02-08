@@ -12,8 +12,13 @@ type DialogsType = {
 
 export function Dialogs(props: DialogsType) {
 
-    let dialogsElements = props.dialogsData.map(d => <DialogItem id={d.id} name={d.name}/> );
-    let massagesElements = props.massagesData.map(m => <Message text={m.text}/>);
+    let dialogsElements = props.dialogsData.map(d => <DialogItem id={d.id} name={d.name} img={d.img}/> )
+    let massagesElements = props.massagesData.map(m => <Message text={m.text}/>)
+    let newMessageElement = React.createRef<HTMLTextAreaElement>()
+    let addMessage= () =>{
+        let message = newMessageElement.current?.value
+        alert(message)
+    }
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -22,6 +27,12 @@ export function Dialogs(props: DialogsType) {
 
             <div className={s.messages}>
                 {massagesElements}
+            </div>
+            <div>
+                <textarea ref={newMessageElement}></textarea>
+            </div>
+            <div>
+                <button onClick={addMessage}>add message</button>
             </div>
         </div>
     );
