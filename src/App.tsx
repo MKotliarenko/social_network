@@ -10,28 +10,18 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {SideBar} from './components/SideBar/sideBar';
+import {DialogsDataType, MassagesDataType, PostDataType} from './Redux/state';
 
-export type DialogsDataType = {
-    id: number
-    name: string
-    img: string
-}
-export type MassagesDataType = {
-    id: number
-    text: string
-}
-export type PostDataType = {
-    id: number
-    text: string
-    likes: number
-}
-type AppTypeProps = {
+export type AppTypeProps = {
     dialogsData: Array<DialogsDataType>
     massagesData: Array<MassagesDataType>
-    postData: Array<PostDataType>
-    addPostToState: (newPost:string) => void
+    profilePage: Array<PostDataType>
+    newPostsText:string
+    addPostToState: (newPost: string) => void
+    updateChangeInput: (newText: string) => void
 
 }
+
 
 function App(props: AppTypeProps) {
     return (
@@ -42,8 +32,10 @@ function App(props: AppTypeProps) {
                 <div className='app-wrapper-content'>
                     <Routes>
 
-                        <Route path="/profile/*" element={<Profile postData={props.postData}
-                                                                   addPostToState={props.addPostToState}/>}/>
+                        <Route path="/profile/*" element={<Profile postData={props.profilePage}
+                                                                   addPostToState={props.addPostToState}
+                                                                   newPostsText={props.newPostsText}
+                                                                   updateChangeInput={props.updateChangeInput}/>}/>
                         <Route path="/dialogs/*" element={<Dialogs dialogsData={props.dialogsData}
                                                                    massagesData={props.massagesData}/>}/>
                         <Route path="/news/*" element={<News/>}/>

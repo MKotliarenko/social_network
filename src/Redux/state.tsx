@@ -1,12 +1,40 @@
-import {PostDataType} from "../App";
+import {renderEntireTree} from "../render";
 
-export let state = {
+export type DialogsType = {
+    dialogsData: Array<DialogsDataType>
+    massagesData: Array<MassagesDataType>
+}
+
+
+export type DialogsDataType = {
+    id: number
+    name: string
+    img: string
+}
+export type MassagesDataType = {
+    id: number
+    text: string
+}
+export type PostDataType = {
+    id: number
+    text: string
+    likes: number
+
+}
+
+export type StateType = {
+    profilePage:{posts: Array<PostDataType>, newPostsText:string }
+    dialogsPage:{dialogsData: Array<DialogsDataType>,massagesData: Array<MassagesDataType>}
+}
+
+
+export let state:StateType = {
     profilePage: {
         posts: [
             {id: 1, text: "Hello, how are you?", likes: 15},
             {id: 2, text: "hi, it's my first post", likes: 20},
             {id: 3, text: "Ok", likes: 5},
-        ]
+        ], newPostsText:""
     },
     dialogsPage: {
         dialogsData: [
@@ -24,9 +52,17 @@ export let state = {
         ]
     }
 }
-export const addPostToState = (newPost:string)=>{
-    const newObject:PostDataType = {id: new Date().getTime(), text: newPost, likes: 0}
+export const addPostToState = (newPost: string) => {
+    const newObject: PostDataType = {id: new Date().getTime(), text: newPost, likes: 0}
     state.profilePage.posts.push(newObject)
+    state.profilePage.newPostsText = ""
+    renderEntireTree(state)
+}
+
+export const updateChangeInput = (newText: string) => {
+    debugger
+    state.profilePage.newPostsText = newText
+    renderEntireTree(state)
 }
 
 

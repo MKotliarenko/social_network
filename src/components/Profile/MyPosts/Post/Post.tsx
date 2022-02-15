@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Post.module.css';
 
 type PostTextType = {
-    id:number
+    id: number
     text: string,
     likes: number
 }

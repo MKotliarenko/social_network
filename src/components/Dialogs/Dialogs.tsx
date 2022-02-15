@@ -2,20 +2,16 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsDataType} from  "./../../App"
-import {MassagesDataType} from  "./../../App"
+import { DialogsType } from '../../Redux/state';
 
-type DialogsType = {
-    dialogsData:Array<DialogsDataType>
-    massagesData:Array<MassagesDataType>
-}
+
 
 export function Dialogs(props: DialogsType) {
 
-    let dialogsElements = props.dialogsData.map(d => <DialogItem id={d.id} name={d.name} img={d.img}/> )
+    let dialogsElements = props.dialogsData.map(d => <DialogItem id={d.id} name={d.name} img={d.img}/>)
     let massagesElements = props.massagesData.map(m => <Message text={m.text}/>)
     let newMessageElement = React.createRef<HTMLTextAreaElement>()
-    let addMessage= () =>{
+    let addMessage = () => {
         let message = newMessageElement.current?.value
         alert(message)
     }
