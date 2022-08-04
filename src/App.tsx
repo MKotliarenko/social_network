@@ -10,20 +10,15 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {SideBar} from './components/SideBar/sideBar';
-import {DialogsDataType, MassagesDataType, PostDataType} from './Redux/state';
+import {store, StoreType} from './Redux/state';
 
 export type AppTypeProps = {
-    dialogsData: Array<DialogsDataType>
-    massagesData: Array<MassagesDataType>
-    profilePage: Array<PostDataType>
-    newPostsText:string
-    addPostToState: (newPost: string) => void
-    updateChangeInput: (newText: string) => void
-
+    store: StoreType
 }
 
 
 function App(props: AppTypeProps) {
+    const state = props.store.getState()
     return (
         <Router>
             <div className="app-wrapper">
@@ -32,12 +27,12 @@ function App(props: AppTypeProps) {
                 <div className='app-wrapper-content'>
                     <Routes>
 
-                        <Route path="/profile/*" element={<Profile postData={props.profilePage}
-                                                                   addPostToState={props.addPostToState}
-                                                                   newPostsText={props.newPostsText}
-                                                                   updateChangeInput={props.updateChangeInput}/>}/>
-                        <Route path="/dialogs/*" element={<Dialogs dialogsData={props.dialogsData}
-                                                                   massagesData={props.massagesData}/>}/>
+                        <Route path="/profile/*" element={<Profile postData={state.profilePage.posts}
+                                                                   dispatch={store.dispatch.bind(props.store)}
+                                                                   newPostsText={state.profilePage.newPostsText}
+                                                                   />}/>
+                        <Route path="/dialogs/*" element={<Dialogs dialogsData={state.dialogsPage.dialogsData}
+                                                                   massagesData={state.dialogsPage.massagesData}/>}/>
                         <Route path="/news/*" element={<News/>}/>
                         <Route path="/music/*" element={<Music/>}/>
                         <Route path="/settings/*" element={<Settings/>}/>
