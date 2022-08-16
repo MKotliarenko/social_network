@@ -27,12 +27,11 @@ function App(props: AppTypeProps) {
                 <div className='app-wrapper-content'>
                     <Routes>
 
-                        <Route path="/profile/*" element={<Profile postData={state.profilePage.posts}
+                        <Route path="/profile/*" element={<Profile profilePage={state.profilePage}
                                                                    dispatch={store.dispatch.bind(props.store)}
-                                                                   newPostsText={state.profilePage.newPostsText}
-                                                                   />}/>
-                        <Route path="/dialogs/*" element={<Dialogs dialogsData={state.dialogsPage.dialogsData}
-                                                                   massagesData={state.dialogsPage.massagesData}/>}/>
+                        />}/>
+                        <Route path="/dialogs/*" element={<Dialogs dialogsPage={state.dialogsPage}
+                                                                   dispatch={store.dispatch.bind(props.store)}/>}/>
                         <Route path="/news/*" element={<News/>}/>
                         <Route path="/music/*" element={<Music/>}/>
                         <Route path="/settings/*" element={<Settings/>}/>

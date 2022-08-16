@@ -1,7 +1,3 @@
-export type DialogsType = {
-    dialogsData: Array<DialogsDataType>
-    massagesData: Array<MassagesDataType>
-}
 export type DialogsDataType = {
     id: number
     name: string
@@ -17,26 +13,28 @@ export type PostDataType = {
     likes: number
 
 }
-type profilePageType = { posts: Array<PostDataType>, newPostsText: string }
-type dialogsPageType = { dialogsData: Array<DialogsDataType>, massagesData: Array<MassagesDataType> }
 export type StateType = {
     profilePage: profilePageType
     dialogsPage: dialogsPageType
 }
-type observerType = () => void
-type AddPostToStateActionType = {type:"ADD-POST-TO-STATE", newPost:string}
-type UpdateChangeInputActionType = {type:"UPDATE-CHANGE-INPUT", newText:string}
-type SubscribeActionType = {type:"SUBSCRIBE", observer:observerType}
-export type ActionsTypes = AddPostToStateActionType | UpdateChangeInputActionType | SubscribeActionType
-
 export type StoreType = {
     _state: StateType,
     getState: () => StateType,
     subscribe: (observer: observerType) => void,
     _renderEntireTree: () => void,
-    dispatch: (action:ActionsTypes) => void
+    dispatch: (action: ActionsTypes) => void
 
 }
+export type profilePageType = { posts: Array<PostDataType>, newPostsText: string }
+export type dialogsPageType = { dialogsData: Array<DialogsDataType>, massagesData: Array<MassagesDataType>, newMassageText: string }
+type observerType = () => void
+type AddPostToStateActionType = { type: "ADD-POST-TO-STATE", newPost: string }
+type UpdateChangeInputActionType = { type: "UPDATE-CHANGE-INPUT", newText: string }
+type UpdateDialogInputActionType = { type: "UPDATE-INPUT-DIALOG", newDialogText: string }
+type AddMassageToDialogActionType = { type: "ADD-MASSAGE-TO-DIALOG", newMassage: string }
+export type ActionsTypes = AddPostToStateActionType | UpdateChangeInputActionType
+    | UpdateDialogInputActionType | AddMassageToDialogActionType
+
 
 export let store: StoreType = {
     _state: {
@@ -60,7 +58,7 @@ export let store: StoreType = {
                 {id: 1, text: "hi"},
                 {id: 2, text: "How are you?"},
                 {id: 3, text: "how is your JavaScript?"},
-            ]
+            ], newMassageText: ""
         }
     },
     _renderEntireTree() {
@@ -87,16 +85,35 @@ export let store: StoreType = {
                 this._state.profilePage.newPostsText = action.newText
                 this._renderEntireTree()
                 break;
-            case "SUBSCRIBE":
-                this._renderEntireTree = action.observer
+            case "UPDATE-INPUT-DIALOG":
+                this._state.dialogsPage.newMassageText = action.newDialogText
+                this._renderEntireTree()
+                break;
+            case "ADD-MASSAGE-TO-DIALOG":
+                const newMassage = {id: new Date().getTime(), text: action.newMassage}
+                this._state.dialogsPage.massagesData.push(newMassage)
+                this._state.dialogsPage.newMassageText = ""
+                this._renderEntireTree()
                 break;
             default:
-                console.log("false")
+                return store
         }
 
     }
 
 }
+// ACTION CREATER
+export const addPostAC = (newPostsText: string): AddPostToStateActionType =>
+    ({type: "ADD-POST-TO-STATE", newPost: newPostsText})
+export const changeInputAC = (newText: string): UpdateChangeInputActionType =>
+    ({type: "UPDATE-CHANGE-INPUT", newText: newText})
+export const changeInputDialogAC = (newDialogText: string): UpdateDialogInputActionType =>
+    ({type: "UPDATE-INPUT-DIALOG", newDialogText: newDialogText})
+export const addMassageAC = (newMassage: string): AddMassageToDialogActionType => (
+    {type: "ADD-MASSAGE-TO-DIALOG", newMassage: newMassage}
+)
+
+// wenn die Funktion nur etwas retourniert, kann man sie ohne {return . . . }, aber mit () schreiben
 
 
 

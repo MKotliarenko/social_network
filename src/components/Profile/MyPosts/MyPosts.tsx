@@ -1,13 +1,8 @@
 import React, {ChangeEvent} from 'react';
-import {ActionsTypes, PostDataType} from '../../../Redux/state';
+import {ActionsTypes, addPostAC, changeInputAC, PostDataType} from '../../../Redux/state';
 import s from './MyPosts.module.css';
 import {Post} from "./Post/Post";
 
-const addPostAC =(newPostsText:string)=>{
-    return {
-        type: "ADD-POST-TO-STATE", newPost: newPostsText
-    }
-}
 
 type MyPosts = {
     postData: Array<PostDataType>
@@ -20,10 +15,10 @@ export function MyPosts(props: MyPosts) {
     let postsElements = props.postData.map(p => <Post id={p.id} text={p.text} likes={p.likes}/>)
 
     let addPost = () => {
-        props.dispatch( addPostAC(props.newPostsText) )
+        props.dispatch(addPostAC(props.newPostsText))
     }
     const changeInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch({type: "UPDATE-CHANGE-INPUT", newText: e.currentTarget.value})
+        props.dispatch(changeInputAC(e.currentTarget.value))
     }
 
     return (

@@ -1,19 +1,24 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import { DialogsType } from '../../Redux/state';
+import {ActionsTypes, addMassageAC, changeInputDialogAC, dialogsPageType} from '../../Redux/state';
 
+type DialogsPropsType = {
+    dialogsPage: dialogsPageType
+    dispatch: (action: ActionsTypes) => void
+}
 
+export function Dialogs(props: DialogsPropsType) {
 
-export function Dialogs(props: DialogsType) {
-
-    let dialogsElements = props.dialogsData.map(d => <DialogItem id={d.id} name={d.name} img={d.img}/>)
-    let massagesElements = props.massagesData.map(m => <Message text={m.text}/>)
-    let newMessageElement = React.createRef<HTMLTextAreaElement>()
+    let dialogsElements = props.dialogsPage.dialogsData.map(d => <DialogItem key={d.id} id={d.id} name={d.name}
+                                                                             img={d.img}/>)
+    let massagesElements = props.dialogsPage.massagesData.map(m => <Message key={m.id} text={m.text}/>)
     let addMessage = () => {
-        let message = newMessageElement.current?.value
-        alert(message)
+        props.dispatch(addMassageAC(props.dialogsPage.newMassageText))
+    }
+    let changeInputMassage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.dispatch(changeInputDialogAC(e.currentTarget.value))
     }
     return (
         <div className={s.dialogs}>
@@ -25,7 +30,7 @@ export function Dialogs(props: DialogsType) {
                 {massagesElements}
             </div>
             <div>
-                <textarea ref={newMessageElement}></textarea>
+                <textarea onChange={changeInputMassage}/>
             </div>
             <div>
                 <button onClick={addMessage}>add message</button>
