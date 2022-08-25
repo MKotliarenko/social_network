@@ -2,23 +2,27 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ActionsTypes, addMassageAC, changeInputDialogAC, dialogsPageType} from '../../Redux/state';
+import {DialogsDataType, MassagesDataType} from '../../Redux/dialogs-reducer';
 
 type DialogsPropsType = {
-    dialogsPage: dialogsPageType
-    dispatch: (action: ActionsTypes) => void
+    changeInputMassage: (newText: string) => void
+    addMessage: (newMassageText:string) => void
+    dialogsData: Array<DialogsDataType>
+    massagesData: Array<MassagesDataType>
+    newMassageText: string
 }
 
 export function Dialogs(props: DialogsPropsType) {
 
-    let dialogsElements = props.dialogsPage.dialogsData.map(d => <DialogItem key={d.id} id={d.id} name={d.name}
-                                                                             img={d.img}/>)
-    let massagesElements = props.dialogsPage.massagesData.map(m => <Message key={m.id} text={m.text}/>)
-    let addMessage = () => {
-        props.dispatch(addMassageAC(props.dialogsPage.newMassageText))
+    let dialogsElements = props.dialogsData.map(d => <DialogItem key={d.id} id={d.id} name={d.name}
+                                                                 img={d.img}/>)
+    let massagesElements = props.massagesData.map(m => <Message key={m.id} text={m.text}/>)
+    let onAddMessage = () => {
+        props.addMessage(props.newMassageText)
     }
-    let changeInputMassage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(changeInputDialogAC(e.currentTarget.value))
+    let onChangeInputMassage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.changeInputMassage(e.currentTarget.value)
+
     }
     return (
         <div className={s.dialogs}>
@@ -28,13 +32,15 @@ export function Dialogs(props: DialogsPropsType) {
 
             <div className={s.messages}>
                 {massagesElements}
+                <div>
+                    <textarea placeholder="Enter your massage" onChange={onChangeInputMassage}
+                              value={props.newMassageText}/>
+                </div>
+                <div>
+                    <button onClick={onAddMessage}>Send</button>
+                </div>
             </div>
-            <div>
-                <textarea onChange={changeInputMassage}/>
-            </div>
-            <div>
-                <button onClick={addMessage}>add message</button>
-            </div>
+
         </div>
     );
 }
