@@ -1,6 +1,7 @@
 import {combineReducers, createStore, Store} from "redux";
 import { profileReducer} from "./profile-reducer";
 import { dialogsReducer} from "./dialogs-reducer";
+import {usersReducer} from "./users-reducer";
 
 // returniert alle ActionsType von redusers
 export type GetAllReduxActions<T> = T extends (state: any, actions: infer Actions, ...args: any[]) => any
@@ -15,7 +16,8 @@ export type GetAllReduxActions<T> = T extends (state: any, actions: infer Action
 
 const rootReducer = combineReducers({
     profilePage:profileReducer,
-    dialogsPage:dialogsReducer
+    dialogsPage:dialogsReducer,
+    usersPage:usersReducer
 })
 
 export const store = createStore(rootReducer);

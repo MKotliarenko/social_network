@@ -14,7 +14,7 @@ const mapStateToProps = (state: RootStateTypeForConnect) => {
 }
 const mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
-        changeInputMassage: (newText: string) => {debugger
+        changeInputMassage: (newText: string) => {
             dispatch(changeInputDialogAC(newText))
         },
         addMessage: (newMassageText: string) => {
