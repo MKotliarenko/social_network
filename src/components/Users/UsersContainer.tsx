@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {AppDispatch, RootStateTypeForConnect} from '../../Redux/redux-store';
+import {RootStateTypeForConnect} from '../../Redux/redux-store';
 import {
     followAC,
     setCurrentPageAC,
@@ -13,7 +13,7 @@ import {
 import * as axios from 'axios';
 import {AxiosResponse} from "axios";
 import {Users} from './Users';
-import preloader from '../../assets/images/Spin-1s-167px.svg'
+import Preloader from "../Common/Preloader/Preloader";
 
 //------ClassComponent
 
@@ -61,7 +61,7 @@ export class UsersContainerAJAX extends React.Component <UsersPropsType, Array<U
 
     render() {
         return <>
-            { this.props.isFetching ? <img src={preloader}/>: null}
+            { this.props.isFetching ? <Preloader/>: null}
             <Users pageSize={this.props.pageSize} totalUsersCount={this.props.totalUsersCount}
                       currentPage={this.props.currentPage} users={this.props.users} unfollow={this.props.unfollow}
                       follow={this.props.follow} onPageSelected={this.onPageSelected}/>
@@ -83,27 +83,35 @@ const mapStateToProps = (state: RootStateTypeForConnect) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-    return {
-        follow: (userID: number) => {
-            dispatch(followAC(userID))
-        },
-        unfollow: (userID: number) => {
-            dispatch(unfollowAC(userID))
-        },
-        setUsers: (newUsers: Array<UserType>) => {
-            dispatch(setUsersAC(newUsers))
-        },
-        setCurrentPage: (pageNumber: number) => {
-            dispatch(setCurrentPageAC(pageNumber))
-        },
-        setTotalUsersCount: (usersCount: number) => {
-            dispatch(setTotalUsersCountAC(usersCount))
-        },
-        toggleIsFetching: (isFetching:boolean)=>{
-            dispatch(toggleIsFetchingAC(isFetching))
-        }
-    }
-}
+// const mapDispatchToProps = (dispatch: AppDispatch) => {
+//     return {
+//         follow: (userID: number) => {
+//             dispatch(followAC(userID))
+//         },
+//         unfollow: (userID: number) => {
+//             dispatch(unfollowAC(userID))
+//         },
+//         setUsers: (newUsers: Array<UserType>) => {
+//             dispatch(setUsersAC(newUsers))
+//         },
+//         setCurrentPage: (pageNumber: number) => {
+//             dispatch(setCurrentPageAC(pageNumber))
+//         },
+//         setTotalUsersCount: (usersCount: number) => {
+//             dispatch(setTotalUsersCountAC(usersCount))
+//         },
+//         toggleIsFetching: (isFetching:boolean)=>{
+//             dispatch(toggleIsFetchingAC(isFetching))
+//         }
+//     }
+// }
+// Mann kann im Connect als zweite Parametr nur Objekt mit AC schreiben.
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainerAJAX)
+export const UsersContainer = connect(mapStateToProps, {
+    follow: followAC,
+    unfollow: unfollowAC,
+    setUsers: setUsersAC,
+    setCurrentPage: setCurrentPageAC,
+    setTotalUsersCount: setTotalUsersCountAC,
+    toggleIsFetching: toggleIsFetchingAC
+})(UsersContainerAJAX)

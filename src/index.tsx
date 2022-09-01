@@ -5,19 +5,16 @@ import {store} from './Redux/redux-store';
 import ReactDOM from "react-dom";
 import App from "./App";
 import { Provider } from 'react-redux';
+import {BrowserRouter} from "react-router-dom";
 
-const renderEntireTree = () => {
+
     ReactDOM.render(
+        <BrowserRouter>
             <Provider store={store}>
                 <App />
-            </Provider>,
+            </Provider>
+        </BrowserRouter>,
         document.getElementById('root')
     );
-}
-renderEntireTree()
-store.subscribe(() => {
-    renderEntireTree()
-})
 
-reportWebVitals();
 

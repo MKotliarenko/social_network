@@ -29,3 +29,6 @@ export type AppDispatch = typeof store.dispatch
 
 
 export type RootStore = Store<RootStateType, RootActions>
+
+// @ts-ignore
+window.store=store;
