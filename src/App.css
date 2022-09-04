@@ -3,7 +3,7 @@
     grid-template-areas: /*количество строк и столбцов*/
             "h h "    /*с помощью заданых псевдонимов*/
             "n c ";
-    grid-template-rows: 60px 1fr; /*размер строк*/
+    grid-template-rows: 90px 1fr; /*размер строк*/
     grid-template-columns: 2fr 10fr; /*размер столбцов */
     grid-gap: 10px; /*отступ между окнами*/
     width:1600px;

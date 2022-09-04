@@ -3,8 +3,11 @@
     background-color:#c9c9c9;
 }
 .header img {
-    width : 60px;
+    width : 80px;
 }
 .loginBlock{
     float:right;
+}
+.ava {
+    border-radius: 100px;
 }
