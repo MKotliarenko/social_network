@@ -1,17 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {RootStateTypeForConnect} from '../../Redux/redux-store';
-import {
-    followAC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    toggleIsFetchingAC,
-    unfollowAC,
-    UserType
-} from '../../Redux/users-reducer';
-import * as axios from 'axios';
-import {AxiosResponse} from "axios";
+import {followThunkCreator, getUsersPageNumberThunkCreator, getUsersThunkCreator,
+    unfollowThunkCreator, UserType} from '../../Redux/users-reducer';
 import {Users} from './Users';
 import Preloader from "../Common/Preloader/Preloader";
 
@@ -22,13 +13,13 @@ type UsersPropsType = {
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
+    isFetching: boolean
+    followingInProgress: boolean
+    followingIdUser: Array<number>
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUsers: (newUsers: Array<UserType>) => void
-    setCurrentPage: (pageNumber: number) => void
-    setTotalUsersCount: (usersCount: number) => void
-    toggleIsFetching:(isFetching:boolean)=>void
-    isFetching:boolean
+    getUsers: (pageSize: number, currentPage: number) => void
+    getUsersWithPageNumber: (pageSize: number, pageNumber: number) => void
 
 }
 
@@ -38,34 +29,23 @@ export class UsersContainerAJAX extends React.Component <UsersPropsType, Array<U
     // }
     // muss man nicht schreiben wen man nur props zur supper weiterleitet
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-        //@ts-ignore
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
-            .then((response: AxiosResponse) => {
-                this.props.toggleIsFetching(false)
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount)
-            })
+        this.props.getUsers(this.props.pageSize, this.props.currentPage)
     }
 
     onPageSelected = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber)
-        this.props.toggleIsFetching(true)
-        //@ts-ignore
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${pageNumber}`)
-            .then((response: AxiosResponse) => {
-                this.props.setUsers(response.data.items)
-                this.props.toggleIsFetching(false)
-            })
+        this.props.getUsersWithPageNumber(this.props.pageSize, pageNumber)
     }
 
     render() {
         return <>
-            { this.props.isFetching ? <Preloader/>: null}
+            {this.props.isFetching ? <Preloader/> : null}
             <Users pageSize={this.props.pageSize} totalUsersCount={this.props.totalUsersCount}
-                      currentPage={this.props.currentPage} users={this.props.users} unfollow={this.props.unfollow}
-                      follow={this.props.follow} onPageSelected={this.onPageSelected}/>
-            </>
+                   currentPage={this.props.currentPage} users={this.props.users} unfollow={this.props.unfollow}
+                   follow={this.props.follow} onPageSelected={this.onPageSelected}
+                   followingInProgress={this.props.followingInProgress}
+                   followingIdUser={this.props.followingIdUser}
+            />
+        </>
     }
 }
 
@@ -78,10 +58,18 @@ const mapStateToProps = (state: RootStateTypeForConnect) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress,
+        followingIdUser: state.usersPage.followingIdUser
 
     }
 }
+export const UsersContainer = connect(mapStateToProps, {
+    unfollow: unfollowThunkCreator,
+    getUsers: getUsersThunkCreator,
+    getUsersWithPageNumber: getUsersPageNumberThunkCreator,
+    follow:followThunkCreator
+})(UsersContainerAJAX)
 
 // const mapDispatchToProps = (dispatch: AppDispatch) => {
 //     return {
@@ -107,11 +95,3 @@ const mapStateToProps = (state: RootStateTypeForConnect) => {
 // }
 // Mann kann im Connect als zweite Parametr nur Objekt mit AC schreiben.
 
-export const UsersContainer = connect(mapStateToProps, {
-    follow: followAC,
-    unfollow: unfollowAC,
-    setUsers: setUsersAC,
-    setCurrentPage: setCurrentPageAC,
-    setTotalUsersCount: setTotalUsersCountAC,
-    toggleIsFetching: toggleIsFetchingAC
-})(UsersContainerAJAX)

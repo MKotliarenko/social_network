@@ -3,6 +3,7 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsDataType, MassagesDataType} from '../../Redux/dialogs-reducer';
+import { Navigate } from 'react-router-dom';
 
 type DialogsPropsType = {
     changeInputMassage: (newText: string) => void
@@ -10,6 +11,7 @@ type DialogsPropsType = {
     dialogsData: Array<DialogsDataType>
     massagesData: Array<MassagesDataType>
     newMassageText: string
+    isAuth:boolean
 }
 
 export function Dialogs(props: DialogsPropsType) {
@@ -24,6 +26,7 @@ export function Dialogs(props: DialogsPropsType) {
         props.changeInputMassage(e.currentTarget.value)
 
     }
+    if(!props.isAuth){return <Navigate to="/login" />;}
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>

@@ -1,3 +1,6 @@
+import {AppDispatch} from "./redux-store";
+import {profileApi} from "../api/api";
+
 export type PostDataType = {
     id: number
     text: string
@@ -73,5 +76,13 @@ export const changeInputAC = (newText: string) =>
     ({type: "UPDATE-CHANGE-INPUT", newText: newText} as const)
 export const setUserProfileAC = (userProfile:UserProfileType) =>
     ({type: "SET_USER_PROFILE", userProfile:userProfile} as const)
+
+export const getProfileThunkCreator = (userId:string) =>{
+    return (dispatch:AppDispatch) => {
+        profileApi.getProfile(userId).then((data) => {
+            dispatch(setUserProfileAC(data));
+        })
+    }
+}
 
 // wenn die Funktion nur etwas retourniert, kann man sie ohne {return . . . }, aber mit () schreiben

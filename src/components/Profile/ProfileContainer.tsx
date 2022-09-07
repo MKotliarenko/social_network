@@ -1,31 +1,31 @@
 import React from 'react';
 import {Profile} from './Profile';
-import * as axios from "axios";
-import {AxiosResponse} from "axios";
 import {connect} from "react-redux";
 import {RootStateTypeForConnect} from "../../Redux/redux-store";
-import {setUserProfileAC, UserProfileType} from '../../Redux/profile-reducer';
-import {useParams} from 'react-router-dom';
+import {getProfileThunkCreator, setUserProfileAC, UserProfileType} from '../../Redux/profile-reducer';
+import {Navigate, useParams} from 'react-router-dom';
 
 
 type ProfileContainerAJAXPropsType = {
-    setUserProfile:(userProfile:UserProfileType)=>void
     profile:UserProfileType
     userId:string
+    getProfile:(userId:string)=>void
+    isAuth:boolean
+    myId:number|null
 }
 
 export class ProfileContainerAJAX extends React.Component<ProfileContainerAJAXPropsType> {
 
     componentDidMount() {
-        //@ts-ignore
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.userId}`)
-            .then((response: AxiosResponse) => {
-                this.props.setUserProfile(response.data);
-            })
+        let userId:string=this.props.userId
+        if(!userId&& this.props.isAuth&&this.props.myId!=null) userId=this.props.myId.toString()
+        this.props.getProfile(userId)
     }
 
-    render() {
-        return <div>
+
+render() {
+    if(!this.props.isAuth){return <Navigate to="/login" />;}
+    return <div>
             <Profile profile={this.props.profile}/>
         </div>
     }
@@ -33,8 +33,10 @@ export class ProfileContainerAJAX extends React.Component<ProfileContainerAJAXPr
 //--------
 
 type WithUrlUserIdComponentType = {
-    setUserProfile:(userProfile:UserProfileType)=>void
     profile:UserProfileType
+    getProfile:(userId:string)=>void
+    isAuth:boolean
+    myId:number|null
 }
 
 const WithUrlUserIdComponent =(props:WithUrlUserIdComponentType)=>{
@@ -46,11 +48,13 @@ const WithUrlUserIdComponent =(props:WithUrlUserIdComponentType)=>{
 
 const mapStateToProps=(state:RootStateTypeForConnect)=>{
     return {
-        profile: state.profilePage.userProfile
+        profile: state.profilePage.userProfile,
+        isAuth: state.auth.isAuth,
+        myId:state.auth.id
     }
 }
 
 export const ProfileContainer = connect (mapStateToProps,
-    {setUserProfile:setUserProfileAC})(WithUrlUserIdComponent)
+    {getProfile:getProfileThunkCreator})(WithUrlUserIdComponent)
 
 

@@ -12,6 +12,8 @@ type UsersPropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
     onPageSelected: (pageNumber: number) => void
+    followingInProgress: boolean
+    followingIdUser: Array<number>
 }
 
 export const Users = (props: UsersPropsType) => {
@@ -22,7 +24,15 @@ export const Users = (props: UsersPropsType) => {
         pagesArray.push(i)
     }
 
+    const followHandler = (userId: number) => {
+        props.follow(userId)
+    }
+    const unFollowHandler = (userId: number) => {
+        props.unfollow(userId)
+    }
+
     return <div className={s.users}>
+
         <div>
             {pagesArray.map(p =>
                 <span key={p} onClick={(e) => props.onPageSelected(p)}
@@ -32,18 +42,17 @@ export const Users = (props: UsersPropsType) => {
             props.users.map(u =>
                 <div key={u.id}>
                     <div>
-                        <NavLink to={'/profile/'+u.id}>
+                        <NavLink to={'/profile/' + u.id}>
                             <img src={u.photos.small != null ? u.photos.small : UsersPhoto}/>
                         </NavLink>
                     </div>
                     <div>
-                        {u.followed
-                            ? <button onClick={() => {
-                                props.unfollow(u.id)
-                            }}>Unfollow</button>
-                            : <button onClick={() => {
-                                props.follow(u.id)
-                            }}>Follow</button>
+                        {
+                            u.followed
+                                ?
+                                <button disabled={props.followingIdUser.some(id => id === u.id)} onClick={() => {unFollowHandler(u.id)}}>Unfollow</button>
+                                :
+                                <button disabled={props.followingIdUser.some(id => id === u.id)} onClick={() => {followHandler(u.id)}}>Follow</button>
                         }
                     </div>
                     <span>

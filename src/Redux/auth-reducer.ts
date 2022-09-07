@@ -1,3 +1,6 @@
+import UsersPhoto from "../assets/images/usersava.png";
+import {AppDispatch} from "./redux-store";
+import {authApi, profileApi} from "../api/api";
 
 export type AuthStateType = {
     id: number | null
@@ -32,10 +35,11 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
         }
         case "SET_USER_AVA": {
             const photos:string = action.userAva
-            return {
-                ...state,
-                photos:photos
+            if(photos)
+            {
+                return {...state, photos:photos}
             }
+            else{return {...state, photos:UsersPhoto}}
 
         }
         default :
@@ -47,4 +51,17 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
 export const setUserDataAC = (userData: userDateType) =>
     ({type: "SET_USER_DATA", userData: userData} as const)
 export const setUserAvaAC = (userAva: string) =>
-{return {type: "SET_USER_AVA", userAva: userAva}as const}
+{ return {type: "SET_USER_AVA", userAva: userAva}as const}
+
+export const getAuthThunkCreator =()=>{
+    return (dispatch:AppDispatch) => {
+        authApi.getAuth().then((data) => {
+            if (!data.resultCode) {
+                dispatch(setUserDataAC(data.data))
+                profileApi.getProfile(data.data.id).then((data) => {
+                    dispatch(setUserAvaAC(data.photos.small));
+                })
+            }
+        })
+    }
+}
