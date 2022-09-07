@@ -40,7 +40,8 @@ type WithUrlUserIdComponentType = {
 }
 
 const WithUrlUserIdComponent =(props:WithUrlUserIdComponentType)=>{
-    let {userId} = useParams()
+    let params = useParams<'*'>()
+    let userId = params["*"]
     return <ProfileContainerAJAX  {...props} userId={userId??''}/>
 }
 
