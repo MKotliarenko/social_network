@@ -6,9 +6,12 @@ export type PostDataType = {
     text: string
     likes: number
 }
-export type profilePageType = { posts: Array<PostDataType>, newPostsText: string, userProfile:UserProfileType }
+export type profilePageType = {
+    posts: Array<PostDataType>, newPostsText: string,
+    userProfile: UserProfileType, status: string
+}
 export type UserProfileType = {
-    aboutMe:string
+    aboutMe: string
     userId: number
     lookingForAJob: boolean
     lookingForAJobDescription: string
@@ -27,13 +30,15 @@ export type UserProfileType = {
         small: string
         large: string
     }
-}|null
+} | null
 
 export type AddPostToStateActionType = ReturnType<typeof addPostAC>
 export type UpdateChangeInputActionType = ReturnType<typeof changeInputAC>
 export type setUserProfileACType = ReturnType<typeof setUserProfileAC>
+export type setProfileStatusACType = ReturnType<typeof setProfileStatusAC>
 
-export type ProfileActionsTypes = AddPostToStateActionType | UpdateChangeInputActionType|setUserProfileACType
+export type ProfileActionsTypes = AddPostToStateActionType | UpdateChangeInputActionType |
+    setUserProfileACType | setProfileStatusACType
 
 
 const initialState: profilePageType = {
@@ -43,7 +48,8 @@ const initialState: profilePageType = {
         {id: 3, text: "Ok", likes: 5},
     ],
     newPostsText: "",
-    userProfile: null
+    userProfile: null,
+    status: ""
 }
 
 export const profileReducer = (state: profilePageType = initialState, action: ProfileActionsTypes): profilePageType => {
@@ -64,23 +70,44 @@ export const profileReducer = (state: profilePageType = initialState, action: Pr
         case "SET_USER_PROFILE": {
             return {...state, userProfile: action.userProfile};
         }
+        case "SET_PROFILE_STATUS": {
+            return {...state, status: action.profileStatus}
+        }
         default :
             return state
     }
 }
 
-// ACTION CREATER
+// ACTION CREATOR
 export const addPostAC = () =>
     ({type: "ADD-POST-TO-STATE"} as const)
 export const changeInputAC = (newText: string) =>
     ({type: "UPDATE-CHANGE-INPUT", newText: newText} as const)
-export const setUserProfileAC = (userProfile:UserProfileType) =>
-    ({type: "SET_USER_PROFILE", userProfile:userProfile} as const)
+export const setUserProfileAC = (userProfile: UserProfileType) =>
+    ({type: "SET_USER_PROFILE", userProfile: userProfile} as const)
+export const setProfileStatusAC = (profileStatus: string) =>
+    ({type: "SET_PROFILE_STATUS", profileStatus: profileStatus} as const)
 
-export const getProfileThunkCreator = (userId:string) =>{
-    return (dispatch:AppDispatch) => {
+//THUNK CREATOR
+export const getProfileThunkCreator = (userId: string) => {
+    return (dispatch: AppDispatch) => {
         profileApi.getProfile(userId).then((data) => {
             dispatch(setUserProfileAC(data));
+        })
+    }
+}
+export const getStatusThunkCreator = (userId: string) => {
+    return (dispatch: AppDispatch) => {
+        profileApi.getStatus(userId).then((data) => {
+            dispatch(setProfileStatusAC(data))
+        })
+    }
+}
+export const changeStatusThunkCreator = (status: string) => {
+    return (dispatch: AppDispatch) => {
+        profileApi.changeStatus(status).then((data) => {
+            data.resultCode===0?dispatch(setProfileStatusAC(status)) :
+                alert(data.messages)
         })
     }
 }

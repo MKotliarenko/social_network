@@ -2,6 +2,10 @@ import React, {ChangeEvent} from 'react';
 import {PostDataType} from '../../../Redux/profile-reducer';
 import s from './MyPosts.module.css';
 import {Post} from "./Post/Post";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+
 
 
 type MyPostsType = {
@@ -24,13 +28,14 @@ export function MyPosts(props: MyPostsType) {
     return (
         <div className={s.PostsBlock}>
             <h3>my-posts</h3>
-            <div className={s.item}>
-                new-post
-                <div>
-                    <textarea onChange={onChangeInput} value={props.newPostsText}/>
-                </div>
-                <div>
-                    <button onClick={onAddPost}>Add post</button>
+            <div className={s.addPost}>
+                <div className={s.title}>new-post</div>
+
+                    <textarea className={s.textArea} onChange={onChangeInput} value={props.newPostsText}/>
+
+                <div className={s.plusIcon}>
+                    <FontAwesomeIcon icon={faPlus} onClick={onAddPost} />
+                    {/*<button onClick={onAddPost}>Add post</button>*/}
                 </div>
             </div>
             <div className={s.Posts}>

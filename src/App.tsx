@@ -11,6 +11,7 @@ import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
 import { HeadContainerConnect } from './components/Header/HeaderContainer';
 import {Login} from "./components/Login/Login";
+import {NavbarRight} from "./components/NavBarRight/NavBarRight";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <div className="app-wrapper">
                 <HeadContainerConnect />
                 <Navbar/>
+                {/*<NavbarRight/>*/}
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path='/profile/*' element={<ProfileContainer />}/>

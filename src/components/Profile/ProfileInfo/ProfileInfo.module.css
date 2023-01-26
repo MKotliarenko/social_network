@@ -1,5 +1,20 @@
 .DescriptionBlock{
-    padding: 10px;
+    padding: 24px 23px 23px;
+}
+.DescriptionBlock li {
+    margin-bottom: 30px
+}
+.DescriptionTitle {
+    margin-right: 0;
+    float: none;
+    width: auto;
+    color: #515365;
+    font-weight: 500;
+}
+.DescriptionText {
+    display: block;
+    overflow: hidden;
+    color: #888da8;
 }
 .yesNo {
     width: 20px;

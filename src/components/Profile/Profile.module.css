@@ -1,0 +1,106 @@
+.ProfileGrid{
+    display: grid;
+    grid-template-areas: /*количество строк и столбцов*/
+            "o o"   /*с помощью заданых псевдонимов*/
+            "u r";
+    grid-template-rows: 1fr; /*размер строк*/
+    grid-template-columns: 3fr 10fr; /*размер столбцов */
+    grid-gap: 15px; /*отступ между окнами*/
+    margin: 0 auto;
+}
+
+.profile {
+    grid-area: o;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+}
+.cover {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+}
+.withImg {
+    background-image: url("../../assets/images/social-network.jpeg");
+    border-radius: 5px 5px 0 0;
+    height: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #ffffff;
+
+}
+
+.withImg::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.name {
+    position: relative;
+    padding: 40px 30px;
+}
+
+.info {
+    grid-area:u;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid #e6ecf5;
+    background-color: white;
+    width: 100%;
+}
+.avaCaver{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    bottom: 15px;
+    text-align: center;
+    max-width: 200px;
+    z-index: 2;
+}
+
+.ava {
+    border-radius: 100%;
+    border: 6px solid  white;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 131px;
+    height: 131px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+.imgAva {
+    border-radius: 0;
+    display: block;
+    width: 132px;
+    height: 132px;
+}
+.userNameAva {
+    margin: 0;
+    padding-bottom:20px;
+    color:#515365;
+}
+.posts {
+    grid-area:r;
+    border-radius: 5px 5px 0 0;
+}
+.profileInfoTitle {
+    line-height: 1;
+    border-bottom: 1px solid #e6ecf5;
+    display: table;
+    width: 100%;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+}
+.title {
+    padding: 23px 25px 18px;
+    margin: 0;
+    color: #515365;
+}

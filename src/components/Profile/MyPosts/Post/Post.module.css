@@ -1,7 +1,26 @@
-.item{
-    color: #426985;
+.cover{
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #e6ecf5;
+    margin-bottom: 15px;
+    padding: 25px;
+
 }
-.item img {
-    width : 50px;
-    border-radius: 30px;
+.cover img {
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 36px;
+    aspect-ratio: auto 36 / 36;
+}
+.item {
+    border-bottom: 1px solid #e6ecf5;
+    font-size: .875rem;
+}
+.likeArea{
+    padding: 20px 0 0;
+    display: flex;
+    align-items: center;
 }

@@ -2,35 +2,43 @@ import axios, {Axios} from "axios";
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL:`https://social-network.samuraijs.com/api/1.0/`,
-    headers:{'API-KEY':'0399e66c-cf60-42b5-a883-aa10c6d4c43a'}
+    baseURL: `https://social-network.samuraijs.com/api/1.0/`,
+    headers: {'API-KEY': '0399e66c-cf60-42b5-a883-aa10c6d4c43a'}
 })
 
 export const usersApi = {
-    getUsers (pageSize: number=100, currentPage: number=1) {
+    getUsers(pageSize: number = 100, currentPage: number = 1) {
         return instance.get(`users?count=${pageSize}&page=${currentPage}`)
-            .then((response)=>response.data);
+            .then((response) => response.data);
     }
 }
 export const followApi = {
-    postFollow (userId:number) {
+    postFollow(userId: number) {
         return instance.post(`follow/${userId}`)
-            .then((response)=>response.data);
+            .then((response) => response.data);
     },
-    deleteUnFollow (userId:number) {
+    deleteUnFollow(userId: number) {
         return instance.delete(`follow/${userId}`)
-            .then((response)=>response.data);
+            .then((response) => response.data);
     }
 }
 export const authApi = {
-    getAuth () {
+    getAuth() {
         return instance.get('auth/me')
-            .then((response)=>response.data);
+            .then((response) => response.data);
     }
 }
 export const profileApi = {
-    getProfile (userId:string) {
+    getProfile(userId: string) {
         return instance.get(`profile/${userId}`)
-            .then((response)=>response.data);
+            .then((response) => response.data);
+    },
+    getStatus(userId: string) {
+        return instance.get(`profile/status/${userId}`)
+            .then((response) => response.data);
+    },
+    changeStatus(status: string) {
+        return instance.put(`profile/status/`, {status: status})
+            .then((response) => response.data)
     }
 }

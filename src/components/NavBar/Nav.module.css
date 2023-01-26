@@ -1,11 +1,17 @@
 .nav{
     grid-area:n;
-    background-color :lightsteelblue;
-    padding : 20px;
+    background-color :#ffffff;;
+    padding: 90px 20px;
+    touch-action: auto;
+    overflow: hidden!important;
+    position: fixed;
+    min-height: 1000vh;
 }
 .item a{
-    color : white;
     text-decoration: none;
+    color: #888da8;
+    padding: 20px 0 20px 0;
+    display: block;
 }
 .item a.active{
     color : gold;

@@ -6,10 +6,14 @@ import Preloader from "../../Common/Preloader/Preloader";
 import YesImage from "../../../assets/images/yes.png"
 import NoImage from "../../../assets/images/no.png"
 import SocialNetwork from "../../../assets/images/social-network.jpeg"
+import {ProfileStatus} from "./ProfileStatus";
 
 
 type ProfileInfoPropsType = {
     profile: UserProfileType
+    status: string
+    changeStatus: (status: string) => void
+
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
@@ -19,26 +23,35 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
 
     return (
         <div>
-            <div>
-                <img width={'100%'} height={250}
-                     src={SocialNetwork}/>
-            </div>
             <div className={s.DescriptionBlock}>
-                <img src={props.profile.photos.large != null ? props.profile.photos.large : UsersPhoto}/>
-                <div>Name : {props.profile.fullName}</div>
-                <div>AboutMe : {props.profile.aboutMe}</div>
-                <div>looking for a Job : {props.profile.lookingForAJob? <img className={s.yesNo} src={YesImage}/> :<img className={s.yesNo} src={NoImage}/>}</div>
-                <div>Job description : {props.profile.lookingForAJobDescription}</div>
-                <span>Contacts :</span>
-                <ul>
-                    <li>vk : {props.profile.contacts.vk}</li>
-                    <li>youtube : {props.profile.contacts.youtube}</li>
-                    <li>facebook : {props.profile.contacts.facebook}</li>
-                    <li>github : {props.profile.contacts.github}</li>
-                    <li>twitter : {props.profile.contacts.twitter}</li>
-                    <li>instagram : {props.profile.contacts.instagram}</li>
-                    <li>mainLink : {props.profile.contacts.mainLink}</li>
-                    <li>website : {props.profile.contacts.website}</li>
+                <ProfileStatus status={props.status} changeStatus={props.changeStatus}/>
+                <ul style={{marginBottom: 0, listStyle: "none", padding: 0}}>
+                    <li>
+                        <span className={s.DescriptionTitle}>AboutMe</span>
+                        <span className={s.DescriptionText}>{props.profile.aboutMe}</span>
+                    </li>
+                    <li>
+                        <span className={s.DescriptionTitle}>Job</span>
+                        <span className={s.DescriptionText}>
+                            looking for a Job : {props.profile.lookingForAJob ?
+                            <img className={s.yesNo} src={YesImage}/>
+                            : <img className={s.yesNo} src={NoImage}/>}
+                            <div>Job description : {props.profile.lookingForAJobDescription}</div>
+                        </span>
+                    </li>
+                    <li>
+                        <span className={s.DescriptionTitle}>Contacts</span>
+                        <span className={s.DescriptionText}>
+                                <div>vk : {props.profile.contacts.vk}</div>
+                                <div>youtube : {props.profile.contacts.youtube}</div>
+                                <div>facebook : {props.profile.contacts.facebook}</div>
+                                <div>github : {props.profile.contacts.github}</div>
+                                <div>twitter : {props.profile.contacts.twitter}</div>
+                                <div>instagram : {props.profile.contacts.instagram}</div>
+                                <div>mainLink : {props.profile.contacts.mainLink}</div>
+                                <div>website : {props.profile.contacts.website}</div>
+                        </span>
+                    </li>
                 </ul>
             </div>
         </div>

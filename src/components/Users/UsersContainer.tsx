@@ -5,6 +5,7 @@ import {followThunkCreator, getUsersPageNumberThunkCreator, getUsersThunkCreator
     unfollowThunkCreator, UserType} from '../../Redux/users-reducer';
 import {Users} from './Users';
 import Preloader from "../Common/Preloader/Preloader";
+import s from "./UsersContainer.module.css"
 
 //------ClassComponent
 
@@ -37,7 +38,7 @@ export class UsersContainerAJAX extends React.Component <UsersPropsType, Array<U
     }
 
     render() {
-        return <>
+        return <div className={s.usersContainer}>
             {this.props.isFetching ? <Preloader/> : null}
             <Users pageSize={this.props.pageSize} totalUsersCount={this.props.totalUsersCount}
                    currentPage={this.props.currentPage} users={this.props.users} unfollow={this.props.unfollow}
@@ -45,7 +46,7 @@ export class UsersContainerAJAX extends React.Component <UsersPropsType, Array<U
                    followingInProgress={this.props.followingInProgress}
                    followingIdUser={this.props.followingIdUser}
             />
-        </>
+        </div>
     }
 }
 

@@ -1,0 +1,12 @@
+.navRight{
+    grid-area:r;
+    background-color :#ffffff;;
+    padding : 10px;
+}
+.item a{
+    text-decoration: none;
+    color: #888da8;
+}
+.item a.active{
+    color : gold;
+}

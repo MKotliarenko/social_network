@@ -32,7 +32,7 @@ type ActionsType = FollowACType | UnfollowACType | SetUsersACType | setCurrentPa
 
 const initialState = {
     users: [],
-    pageSize: 100,
+    pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
