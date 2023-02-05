@@ -60,7 +60,7 @@ export const profileReducer = (state: profilePageType = initialState, action: Pr
             //stateCopy.posts = [...state.posts]
             //stateCopy.posts.push(newObject);
             //stateCopy.newPostsText = ""
-            return {...state, posts: [...state.posts, newObject], newPostsText: ""};
+            return {...state, posts: [newObject, ...state.posts], newPostsText: ""};
         }
         case "UPDATE-CHANGE-INPUT": {
             //const stateCopy = {...state, newPostsText: action.newText}

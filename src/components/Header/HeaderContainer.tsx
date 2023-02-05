@@ -6,7 +6,7 @@ import {RootStateTypeForConnect} from "../../Redux/redux-store";
 
 export type HeaderContainerPropsType = {
     isAuth: boolean
-    login: string
+    login: string | null
     photos:string
     getAuth:()=>void
 }

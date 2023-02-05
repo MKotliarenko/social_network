@@ -10,8 +10,7 @@ import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
 import { HeadContainerConnect } from './components/Header/HeaderContainer';
-import {Login} from "./components/Login/Login";
-import {NavbarRight} from "./components/NavBarRight/NavBarRight";
+import {Login, LoginContainer} from "./components/Login/Login";
 
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
             <div className="app-wrapper">
                 <HeadContainerConnect />
                 <Navbar/>
-                {/*<NavbarRight/>*/}
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path='/profile/*' element={<ProfileContainer />}/>
@@ -28,7 +26,7 @@ function App() {
                         <Route path="/news/*" element={<News/>}/>
                         <Route path="/music/*" element={<Music/>}/>
                         <Route path="/settings/*" element={<Settings/>}/>
-                        <Route path="/login/*" element={<Login/>}/>
+                        <Route path="/login/*" element={<LoginContainer/>}/>
                     </Routes>
                 </div>
             </div>

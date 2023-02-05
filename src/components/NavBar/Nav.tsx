@@ -9,7 +9,7 @@ export function Navbar () {
         <div style={{width:113, display:"grid"}}>
             <nav className={s.nav}>
                 <div className={s.item}>
-                    <NavLink to='/profile'className={({isActive}) =>isActive ? s.active : ''}>Profile</NavLink>
+                    <NavLink to='/profile' className={({isActive}) =>isActive ? s.active : ''}>Profile</NavLink>
                 </div>
                 <div className={s.item}>
                     <NavLink to='/dialogs' className={({isActive}) =>isActive ? s.active : ''}>Messages</NavLink>

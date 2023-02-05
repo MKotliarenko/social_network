@@ -27,8 +27,6 @@ export const Users = (props: UsersPropsType) => {
     }
 
     return <div className={s.users}>
-        <Paginator  pageSize={props.pageSize} totalItemsCount={props.totalUsersCount}
-        portionSize={15}  currentPage={props.currentPage} onPageSelected={props.onPageSelected}/>
         {
             props.users.map(u =>
                 <div key={u.id}>
@@ -58,5 +56,7 @@ export const Users = (props: UsersPropsType) => {
                         </span>
                 </div>)
         }
+        <Paginator  pageSize={props.pageSize} totalItemsCount={props.totalUsersCount}
+                    portionSize={15}  currentPage={props.currentPage} onPageSelected={props.onPageSelected}/>
     </div>
 }

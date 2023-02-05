@@ -1,4 +1,28 @@
+.paginator{
+    margin: 0 0 14px;
+    list-style-type: none;
+    padding: 0;
+    outline: 0;
+    display: inline-block;
+}
 .selectedPage{
     font-weight: bold;
     color: gold;
+    box-shadow:2px 2px #6a6e83 inset;
+}
+.page, .selectedPage {
+    background-color: #888da8 ;
+    display: inline-block;
+    line-height: 20px;
+    height: 20px;
+    font-size: 14px;
+    padding: 0 5px;
+    min-width: 20px;
+    outline: none;
+    border-radius: 3px;
+    margin: 10px 3px;
+    text-align: center;
+}
+.page {
+    color: white;
 }

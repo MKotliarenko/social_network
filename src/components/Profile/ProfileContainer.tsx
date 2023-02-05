@@ -24,21 +24,27 @@ type ProfileContainerAJAXPropsType = {
 
 export class ProfileContainerAJAX extends React.Component<ProfileContainerAJAXPropsType> {
 
+    refreshProfile() {
+            let userId: string = this.props.userId
+            if (!userId && this.props.myId != null)
+                userId = this.props.myId.toString()
+            this.props.getProfile(userId)
+            this.props.getStatus(userId)
+    }
+
     componentDidMount() {
-        let userId: string = this.props.userId
-        if (!userId && this.props.myId != null)
-            userId = this.props.myId.toString()
-        this.props.getProfile(userId)
-        this.props.getStatus(userId)
+        this.refreshProfile()
     }
 
     componentDidUpdate(prevProps: Readonly<ProfileContainerAJAXPropsType>, prevState: Readonly<{}>) {
-        if (prevProps.status !== this.props.status) {
-            this.props.changeStatus(this.props.status)
+         // if (this.props.status !== prevProps.status ) {
+         //     this.props.changeStatus(this.props.status)
+         // }
+        if (this.props.userId !== prevProps.userId) {
+            this.refreshProfile()
         }
-    }
 
-    //    74!!!
+    }
     render() {
         return (
 

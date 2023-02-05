@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import s from "./Paginator.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronRight,faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+
 
 type PaginatorPropsType = {
     pageSize: number,
     totalItemsCount: number,
     portionSize: number,
-    currentPage:number,
+    currentPage: number,
     onPageSelected: (pageNumber: number) => void,
 }
 
@@ -18,23 +21,28 @@ export const Paginator = (props: PaginatorPropsType) => {
     }
 
     let [portionNumber, setPortionNumber] = useState(1);
-    let portionsCount = Math.ceil(countPages/props.portionSize);
-    let leftEdge = (portionNumber-1)*props.portionSize+1;
+    let portionsCount = Math.ceil(countPages / props.portionSize);
+    let leftEdge = (portionNumber - 1) * props.portionSize + 1;
     let rightEdge = portionNumber * props.portionSize;
 
     return (
         <div>
             {portionNumber > 1 &&
-                <button onClick={()=>{setPortionNumber(portionNumber-1)}}>back</button>}
-
-            {pagesArray
-                .filter (p => p>=leftEdge && p<=rightEdge)
-                .map(p =>
-                <span key={p} onClick={(e) => props.onPageSelected(p)}
-                      className={props.currentPage === p ? s.selectedPage : ''}>{p}</span>)}
-
+                <FontAwesomeIcon icon={faChevronLeft} onClick={() => {
+                    setPortionNumber(portionNumber - 1)
+                }} />}
+            <ul className={s.paginator}>
+                {pagesArray
+                    .filter(p => p >= leftEdge && p <= rightEdge)
+                    .map(p =>
+                        <li key={p} onClick={(e) => props.onPageSelected(p)}
+                            className={props.currentPage === p ? s.selectedPage : s.page}>{p}</li>
+                    )}
+            </ul>
             {portionsCount > portionNumber &&
-                <button onClick={()=>{setPortionNumber(portionNumber+1)}}>next</button>}
+            <FontAwesomeIcon icon={faChevronRight} onClick={() => {
+                setPortionNumber(portionNumber + 1)
+            }} />}
         </div>
     );
 };
