@@ -4,6 +4,7 @@ import { dialogsReducer} from "./dialogs-reducer";
 import {usersReducer} from "./users-reducer";
 import {authReducer} from "./auth-reducer";
 import thunkMiddleware, {ThunkDispatch} from "redux-thunk"
+import {appReducer} from "./app-reducer";
 
 // returniert alle ActionsType von redusers
 export type GetAllReduxActions<T> = T extends (state: any, actions: infer Actions, ...args: any[]) => any
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     dialogsPage:dialogsReducer,
     usersPage:usersReducer,
     auth:authReducer,
+    app:appReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

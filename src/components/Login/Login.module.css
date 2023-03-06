@@ -1,0 +1,19 @@
+.error {
+    color:red;
+    padding-left: 10px;
+    font-size: 14px;
+}
+.errorCommon {
+    color:red;
+    font-size: 14px;
+    padding-top: 10px;
+}
+.inputForm {
+    width: 25%;
+    margin-bottom: 10px;
+}
+.inputForm:focus {
+    border: 1px solid gold;
+    outline: 1px solid gold;
+    border-radius: 1px;
+}

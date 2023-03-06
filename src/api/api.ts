@@ -28,13 +28,17 @@ export const authApi = {
         return instance.get('auth/me')
             .then((response) => response.data);
     },
-    postLogin(loginData:LoginDataType) {
-        return instance.post('auth/login', {email:loginData.email, password:loginData.password, rememberMe:loginData.rememberMe})
-            .then((response)=>response.data);
+    postLogin(loginData: LoginDataType) {
+        return instance.post('auth/login', {
+            email: loginData.email,
+            password: loginData.password,
+            rememberMe: loginData.rememberMe
+        })
+            .then((response) => response.data);
     },
     deleteLogout() {
-        return instance.post('auth/login')
-            .then((response)=>response.data);
+        return instance.delete('auth/login')
+            .then((response) => response.data);
     }
 }
 

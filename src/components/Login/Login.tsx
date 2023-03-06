@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {LoginDataType, postLoginThunkCreator} from "../../Redux/auth-reducer";
 import {Navigate, useNavigate} from "react-router-dom";
 import {RootStateTypeForConnect} from "../../Redux/redux-store";
+import {ValidationErrors} from "final-form";
+import s from './Login.module.css';
 
 
 export const LoginForm = (props: LoginPropsType) => {
@@ -12,7 +14,8 @@ export const LoginForm = (props: LoginPropsType) => {
             initialValues={{
                 login: "",
                 password: "",
-                rememberMe: false
+                rememberMe: false,
+                error: ""
             }}
             onSubmit={values => {
                 props.setLogin({
@@ -21,27 +24,61 @@ export const LoginForm = (props: LoginPropsType) => {
                     rememberMe: values.rememberMe
                 })
             }}
-            // validate={values => {}}
+            validate={values => {
+                const errors: ValidationErrors = {}
+                if (!values.email) {
+                    errors.email = 'Required'
+                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                    errors.email = 'Invalid email address'
+                }
 
+                if (!values.password) {
+                    errors.password = 'Required'
+                } else if (values.password.length < 5) {
+                    errors.password = 'Need more symbols'
+                }
+                return errors
+            }}
         >
-            {({handleSubmit, pristine, form, submitting}) => (
+            {({submitError, handleSubmit, pristine, form, submitting}) => (
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <Field name={'email'} placeholder={'email'} component={'input'}/>
+                        <Field name="email">
+                            {field => (
+                                <div>
+                                    <input className={s.inputForm} {...field.input} type="text" placeholder="email"/>
+                                    {field.meta.touched && (field.meta.error || field.meta.submitError) && (
+                                        <span className={s.error}>{field.meta.error || field.meta.submitError}</span>
+                                    )}
+                                </div>
+                            )}
+                        </Field>
                     </div>
                     <div>
-                        <Field type="password" name={'password'} placeholder={'password'} component={'input'}/>
+                        <Field name="password">
+                            {field => (
+                                <div>
+                                    <input className={s.inputForm} {...field.input} type="password"
+                                           placeholder="password"/>
+                                    {field.meta.touched && (field.meta.error || field.meta.submitError) && (
+                                        <span className={s.error}>{field.meta.error || field.meta.submitError}</span>
+                                    )}
+                                </div>
+                            )}
+                        </Field>
                     </div>
                     <div>
                         <Field name={'rememberMe'} type={"checkbox"} component={'input'}/>remember me
                     </div>
                     <div>
-                        <button type="submit" disabled={pristine || submitting} onClick={() => {
+                        <button className={s.but} type="submit" disabled={pristine || submitting} onClick={() => {
                             form.submit();
                             form.reset();
-                        }}>Sing in
+                        }}>
+                            Sing in
                         </button>
                     </div>
+                    {props.error && <div className={s.errorCommon}>{props.error}</div>}
                 </form>
             )}
         </Form>
@@ -52,6 +89,7 @@ type LoginPropsType = {
     setLogin: (loginData: LoginDataType) => void,
     isAuth: boolean,
     id: number | null
+    error: string
 }
 
 export const Login = (props: LoginPropsType) => {
@@ -70,7 +108,8 @@ export const Login = (props: LoginPropsType) => {
 const mapStateToProps = (state: RootStateTypeForConnect) => {
     return {
         isAuth: state.auth.isAuth,
-        id: state.auth.id
+        id: state.auth.id,
+        error: state.auth.error
     }
 }
 
